@@ -1,0 +1,74 @@
+County,FIPS,2023 Rural-Urban Continuum Codes([rural urban note]),"Age-Adjusted Incidence Rate([rate note]) - cases per 100,000",Lower 95% Confidence Interval,Upper 95% Confidence Interval,CI*Rank([rank note]),Lower CI (CI*Rank),Upper CI (CI*Rank),Average Annual Count,Percent of Cases with Late Stage
+Yolo County,06113,Urban,26.0,20.4, 32.5,1 , 1 , 29,15.0,51.0
+Nevada County,06057,Rural,23.6,15.9, 33.7,2 , 1 , 41,6.0,45.5
+Marin County,06041,Urban,23.0,18.3, 28.5,3 , 1 , 36,17.0,37.2
+Ventura County,06111,Urban,21.5,19, 24.3,4 , 1 , 31,54.0,43.9
+Butte County,06007,Urban,21.3,16.2, 27.5,5 , 1 , 40,12.0,44.3
+Imperial County,06025,Urban,21.3,15.8, 27.9,6 , 1 , 40,10.0,50.0
+Santa Clara County,06085,Urban,21.0,19.4, 22.6,7 , 3 , 27,132.0,41.7
+Santa Cruz County,06087,Urban,20.9,16.5, 26.1,8 , 1 , 39,16.0,40.6
+Contra Costa County,06013,Urban,20.7,18.7, 22.9,9 , 2 , 30,79.0,40.5
+San Diego County,06073,Urban,20.7,19.5, 22,10 , 4 , 25,209.0,44.4
+San Luis Obispo County,06079,Urban,20.7,16.1, 26.1,11 , 1 , 39,14.0,37.8
+Sacramento County,06067,Urban,20.5,18.7, 22.3,12 , 3 , 30,101.0,45.2
+El Dorado County,06017,Urban,20.4,15.3, 26.7,13 , 1 , 40,11.0,37.8
+Monterey County,06053,Urban,20.3,16.9, 24.2,14 , 1 , 38,25.0,49.6
+Solano County,06095,Urban,20.3,17, 24.1,15 , 1 , 37,26.0,48.0
+Shasta County,06089,Urban,20.2,15, 26.6,16 , 1 , 40,10.0,51.0
+Lake County,06033,Rural,20.0,11.6, 32,17 , 1 , 41,3.0,50.0
+San Francisco County,06075,Urban,19.7,17.5, 22.2,18 , 3 , 36,58.0,39.2
+Alameda County,06001,Urban,19.7,18.1, 21.4,19 , 5 , 33,113.0,41.8
+Merced County,06047,Urban,19.7,15.6, 24.6,20 , 1 , 40,16.0,60.0
+Orange County,06059,Urban,19.6,18.4, 20.9,21 , 7 , 31,198.0,40.4
+Placer County,06061,Urban,19.6,16.2, 23.4,22 , 2 , 39,24.0,40.3
+Sonoma County,06097,Urban,19.6,16.5, 23.1,23 , 2 , 39,28.0,40.8
+Santa Barbara County,06083,Urban,19.4,16, 23.4,24 , 2 , 39,22.0,38.8
+San Bernardino County,06071,Urban,19.2,17.7, 20.7,25 , 8 , 34,127.0,49.2
+San Joaquin County,06077,Urban,19.1,16.7, 21.8,26 , 4 , 38,44.0,48.6
+Humboldt County,06023,Rural,19.1,13.3, 26.4,27 , 1 , 41,7.0,47.4
+Los Angeles County,06037,Urban,18.6,17.9, 19.2,28 , 17 , 33,601.0,43.3
+Napa County,06055,Urban,18.1,12.8, 25,29 , 1 , 41,7.0,36.3
+San Mateo County,06081,Urban,18.1,15.8, 20.6,30 , 7 , 39,46.0,34.7
+Stanislaus County,06099,Urban,17.8,15, 20.9,31 , 6 , 40,29.0,42.4
+Riverside County,06065,Urban,17.1,15.8, 18.5,32 , 21 , 39,124.0,44.7
+Tulare County,06107,Urban,17.0,14, 20.4,33 , 8 , 41,23.0,48.1
+Fresno County,06019,Urban,16.8,14.7, 19,34 , 16 , 40,49.0,45.9
+Sutter County,06101,Urban,16.6,10.5, 24.8,35 , 1 , 41,5.0,39.7
+San Benito County,06069,Urban,16.4,9.4, 26.5,36 , 1 , 41,3.0,43.2
+Kern County,06029,Urban,16.3,14.1, 18.6,37 , 18 , 41,41.0,46.0
+Yuba County,06115,Urban,16.0,9.5, 25.1,38 , 1 , 41,4.0,40.0
+Kings County,06031,Urban,15.2,10.1, 21.7,39 , 3 , 41,6.0,41.4
+Mendocino County,06045,Rural,15.1,9.1, 23.6,40 , 2 , 41,4.0,44.2
+Madera County,06039,Urban,12.4,8.3, 17.6,41 , 20 , 41,6.0,52.6
+Alpine County,06003,Rural,,*, *,* , * , *,,
+Amador County,06005,Rural,,*, *,* , * , *,,
+Calaveras County,06009,Rural,,*, *,* , * , *,,
+Colusa County,06011,Rural,,*, *,* , * , *,,
+Del Norte County,06015,Rural,,*, *,* , * , *,,
+Glenn County,06021,Rural,,*, *,* , * , *,,
+Inyo County,06027,Rural,,*, *,* , * , *,,
+Lassen County,06035,Rural,,*, *,* , * , *,,
+Mariposa County,06043,Rural,,*, *,* , * , *,,
+Modoc County,06049,Rural,,*, *,* , * , *,,
+Mono County,06051,Rural,,*, *,* , * , *,,
+Plumas County,06063,Rural,,*, *,* , * , *,,
+Sierra County,06091,Rural,,*, *,* , * , *,,
+Siskiyou County,06093,Rural,,*, *,* , * , *,,
+Tehama County,06103,Rural,,*, *,* , * , *,,
+Trinity County,06105,Rural,,*, *,* , * , *,,
+Tuolumne County,06109,Rural,,*, *,* , * , *,,
+Created by statecancerprofiles.cancer.gov on 01/26/2026 2:37 pm.,00nan,,,,,,,,,
+State Cancer Registries may provide more current or more local data.,00nan,,,,,,,,,
+Trend,00nan,,,,,,,,,
+Rising when 95% confidence interval of average annual percent change is above 0.,00nan,,,,,,,,,
+Stable when 95% confidence interval of average annual percent change includes 0.,00nan,,,,,,,,,
+Falling when 95% confidence interval of average annual percent change is below 0.,00nan,,,,,,,,,
+Rates are computed using cancers classified as malignant based on ICD-O-3. For more information see malignant.html.,00nan,,,,,,,,,
+"^ Late Stage is defined as cases determined to be regional or distant. Due to changes in stage coding, Combined Summary Stage (2004+) is used for data from Surveillance, Epidemiology, and End Results (SEER) databases and Merged Summary Stage is used for data from National Program of Cancer Registries [ https://www.cdc.gov/cancer/npcr/index.htm ] databases. Due to the increased complexity with staging, other staging variables maybe used if necessary.",00nan,,,,,,,,,
+"[rank note]Results presented with the CI*Rank statistics help show the usefulness of ranks. For example, ranks for relatively rare diseases or less populated areas may be essentially meaningless because of their large variability, but ranks for more common diseases in densely populated regions can be very useful. More information about methodology can be found on the CI*Rank website.",00nan,,,,,,,,,
+"* Data has been suppressed to ensure confidentiality and stability of rate estimates.  Counts are suppressed if fewer than 16 records were reported in a specific area-sex-race category. If an average count of 3 is shown, the total number of cases for the time period is 16 or more which exceeds suppression threshold (but is rounded to 3).",00nan,,,,,,,,,
+"1 Source: National Program of Cancer Registries [ https://www.cdc.gov/cancer/npcr/index.htm ] and Surveillance, Epidemiology, and End Results [ http://seer.cancer.gov ] SEER*Stat Database - United States Department of Health and Human Services, Centers for Disease Control and Prevention and National Cancer Institute. Based on the 2023 submission.",00nan,,,,,,,,,
+3 Source: SEER November 2023 submission.  State Cancer Registry also receives funding from CDC's National Program of Cancer Registries.,00nan,,,,,,,,,
+7 Source: SEER November 2023 submission.,00nan,,,,,,,,,
+Data for the United States does not include data from Indiana.,00nan,,,,,,,,,
+Data for the United States does not include Puerto Rico.,00nan,,,,,,,,,
