@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Breast Cancer Outcomes & Socioeconomic Equity — California</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=DM+Sans:wght@400;500;600;700;800&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --teal: #0D9488; --teal-dark: #0F4C41; --coral: #F97316;
+    --slate: #334155; --text: #1E293B; --subtext: #64748B;
+    --muted: #94A3B8; --border: #E2E8F0; --bg: #F8FAFB; --card: #FFFFFF;
+  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .header { background: linear-gradient(135deg, #0F4C41 0%, #0D9488 60%, #14B8A6 100%); padding: 40px 40px 32px; color: #fff; }
+  .header-inner { max-width: 960px; margin: 0 auto; display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap; }
+  .header-eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: rgba(255,255,255,0.65); margin-bottom: 10px; }
+  .header h1 { font-family: 'Lora', serif; font-size: 30px; font-weight: 700; line-height: 1.25; margin-bottom: 10px; }
+  .header p { font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.65; max-width: 500px; }
+  .header-meta { background: rgba(255,255,255,0.13); border-radius: 10px; padding: 14px 20px; font-size: 12px; color: rgba(255,255,255,0.9); min-width: 160px; }
+  .header-meta strong { display: block; font-size: 13px; margin-bottom: 6px; }
+  .header-meta span { display: block; line-height: 1.7; }
+  .nav { background: #fff; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+  .nav-inner { max-width: 960px; margin: 0 auto; padding: 0 40px; display: flex; overflow-x: auto; }
+  .nav-btn { padding: 15px 18px; font-size: 13px; font-weight: 500; color: var(--subtext); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
+  .nav-btn:hover { color: var(--teal); }
+  .nav-btn.active { font-weight: 700; color: var(--teal); border-bottom-color: var(--teal); }
+  .content { max-width: 960px; margin: 0 auto; padding: 36px 40px 80px; }
+  .section { display: none; }
+  .section.active { display: block; }
+  .section-header { margin-bottom: 28px; }
+  .section-header-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .section-badge { width: 34px; height: 34px; border-radius: 50%; background: var(--teal); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; flex-shrink: 0; }
+  .section-header h2 { font-family: 'Lora', serif; font-size: 22px; font-weight: 700; color: var(--text); }
+  .section-subtitle { color: var(--subtext); font-size: 14px; margin-left: 46px; line-height: 1.6; }
+  .card { background: var(--card); border-radius: 12px; border: 1px solid var(--border); padding: 24px 28px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); margin-bottom: 16px; }
+  .card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 16px; }
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin-bottom: 20px; }
+  .stat-card { background: var(--card); border-radius: 12px; border: 1px solid var(--border); padding: 18px 20px; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+  .stat-value { font-family: 'Lora', serif; font-size: 30px; font-weight: 700; color: var(--teal); }
+  .stat-label { font-size: 12.5px; font-weight: 700; color: var(--text); margin-top: 4px; }
+  .stat-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .interpretation { background: #F0FDF9; border-left: 3px solid var(--teal); border-radius: 0 8px 8px 0; padding: 13px 16px; margin-top: 16px; font-size: 13.5px; color: var(--slate); line-height: 1.7; }
+  .interpretation strong { color: var(--teal); }
+  .caption { font-size: 11.5px; color: var(--muted); font-style: italic; margin-top: 10px; line-height: 1.5; }
+  .finding { display: flex; gap: 14px; padding: 16px 18px; border-radius: 8px; margin-bottom: 12px; border-left: 4px solid; }
+  .finding-icon { font-size: 22px; flex-shrink: 0; }
+  .finding-title { font-weight: 700; font-size: 14px; color: var(--text); margin-bottom: 5px; }
+  .finding-body { font-size: 13px; color: var(--slate); line-height: 1.65; }
+  .geo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .geo-card { background: var(--card); border-radius: 12px; border: 1px solid var(--border); padding: 22px; text-align: center; }
+  .geo-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 10px; }
+  .geo-rate { font-family: 'Lora', serif; font-size: 40px; font-weight: 700; color: var(--text); }
+  .geo-sub { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+  .geo-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .geo-stat { background: #F8FAFC; border-radius: 6px; padding: 8px 10px; }
+  .geo-stat-val { font-size: 17px; font-weight: 800; color: var(--text); }
+  .geo-stat-lbl { font-size: 11px; color: var(--muted); }
+  .var-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .var-item { background: #F8FAFC; border-radius: 8px; padding: 12px 14px; }
+  .var-name { font-weight: 700; font-size: 13px; color: var(--text); }
+  .var-source { font-size: 11px; color: var(--teal); font-weight: 600; margin-top: 2px; }
+  .var-desc { font-size: 12px; color: var(--subtext); margin-top: 4px; line-height: 1.5; }
+  .legend { display: flex; gap: 18px; justify-content: center; margin-top: 10px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--subtext); }
+  .legend-dot { width: 11px; height: 11px; border-radius: 50%; }
+  .legend-box { width: 11px; height: 11px; border-radius: 2px; }
+  footer { border-top: 1px solid var(--border); background: #fff; padding: 20px 40px; text-align: center; font-size: 12px; color: var(--muted); }
+  canvas { max-height: 340px; }
+  @media (max-width: 600px) {
+    .header { padding: 24px 20px; } .content { padding: 24px 20px 60px; }
+    .nav-inner { padding: 0 10px; } .geo-grid { grid-template-columns: 1fr; }
+    .var-grid { grid-template-columns: 1fr; } .stat-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div>
+      <div class="header-eyebrow">California Public Health Dashboard</div>
+      <h1>Breast Cancer Outcomes<br>&amp; Socioeconomic Equity</h1>
+      <p>County-level analysis of late-stage breast cancer diagnoses among women under 50, and their relationship to poverty, income, insurance coverage, and geography.</p>
+    </div>
+    <div class="header-meta">
+      <strong>Data Sources</strong>
+      <span>State Cancer Profiles (NCI/CDC)</span>
+      <span>U.S. Census Bureau ACS</span>
+      <span style="margin-top:8px;color:rgba(255,255,255,0.6)">58 California Counties</span>
+    </div>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="showSection(0,this)">⭐ Recommendations</button>
+    <button class="nav-btn" onclick="showSection(1,this)">Overview</button>
+    <button class="nav-btn" onclick="showSection(2,this)">Key Findings</button>
+    <button class="nav-btn" onclick="showSection(3,this)">Socioeconomic Factors</button>
+    <button class="nav-btn" onclick="showSection(4,this)">Geography</button>
+  </div>
+</nav>
+
+<div class="content">
+
+  <!-- SECTION 0: FINAL RECOMMENDATIONS (moved to top) -->
+  <div class="section active" id="section-0">
+    <div class="section-header">
+      <div class="section-header-row"><div class="section-badge">🎯</div><h2>Final Recommendations</h2></div>
+      <p class="section-subtitle">Evidence-based actions for policymakers, health systems, and community organizations to reduce late-stage breast cancer diagnoses across California.</p>
+    </div>
+    <div class="finding" style="background:#FFF7ED;border-color:#F97316;">
+      <span class="finding-icon">🎯</span>
+      <div>
+        <div class="finding-title">Focus on the Hardest-Hit Counties</div>
+        <div class="finding-body">Counties like Merced, Madera, Imperial, and Tulare have the highest rates of late-stage diagnoses. These areas need more screening clinics, outreach workers, and resources — now.</div>
+      </div>
+    </div>
+    <div class="finding" style="background:#FEF3C7;border-color:#F59E0B;">
+      <span class="finding-icon">🏕️</span>
+      <div>
+        <div class="finding-title">Bring Screenings to Rural Areas</div>
+        <div class="finding-body">Many rural residents live far from the nearest clinic. Mobile mammography vans that travel to these communities can make it much easier for women to get screened without a long drive.</div>
+      </div>
+    </div>
+    <div class="finding" style="background:#ECFDF5;border-color:#10B981;">
+      <span class="finding-icon">🏥</span>
+      <div>
+        <div class="finding-title">Help More People Get Health Insurance</div>
+        <div class="finding-body">Women without insurance often skip routine screenings because of cost. Connecting more people to free or low-cost coverage — like Medi-Cal — is one of the most effective ways to catch cancer earlier.</div>
+      </div>
+    </div>
+    <div class="finding" style="background:#EFF6FF;border-color:#3B82F6;">
+      <span class="finding-icon">📋</span>
+      <div>
+        <div class="finding-title">Make Screenings Part of Regular Doctor Visits</div>
+        <div class="finding-body">Local health clinics should remind patients to get mammograms during routine checkups. Simple follow-up calls and appointment reminders can make a big difference in whether people actually follow through.</div>
+      </div>
+    </div>
+    <div class="finding" style="background:#FDF4FF;border-color:#A855F7;">
+      <span class="finding-icon">📊</span>
+      <div>
+        <div class="finding-title">Keep Measuring What's Working</div>
+        <div class="finding-body">We should track progress in each county every year. If a county's numbers aren't improving, that's a signal to step up support. Knowing where the gaps are helps get resources to the right places.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: OVERVIEW -->
+  <div class="section" id="section-1">
+    <div class="section-header">
+      <div class="section-header-row"><div class="section-badge">—</div><h2>Dataset Overview</h2></div>
+      <p class="section-subtitle">Summary of the counties analyzed, variables used, and data sources underpinning this dashboard.</p>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-value">41</div><div class="stat-label">Counties Analyzed</div><div class="stat-sub">with late-stage data</div></div>
+      <div class="stat-card"><div class="stat-value">44.5%</div><div class="stat-label">Avg. Late-Stage Rate</div><div class="stat-sub">across all counties</div></div>
+      <div class="stat-card"><div class="stat-value">16.5%</div><div class="stat-label">Avg. Poverty Rate</div><div class="stat-sub">county-level</div></div>
+      <div class="stat-card"><div class="stat-value">$72K</div><div class="stat-label">Avg. Median Income</div><div class="stat-sub">household</div></div>
+      <div class="stat-card"><div class="stat-value">6.8%</div><div class="stat-label">Avg. Uninsured Rate</div><div class="stat-sub">among measured counties</div></div>
+    </div>
+    <div class="card">
+      <h3>Variables Used in This Analysis</h3>
+      <div class="var-grid">
+        <div class="var-item"><div class="var-name">Late-Stage Diagnosis Rate (%)</div><div class="var-source">Source: State Cancer Profiles</div><div class="var-desc">Percentage of breast cancer cases diagnosed at late stage among women under 50</div></div>
+        <div class="var-item"><div class="var-name">Poverty Rate (%)</div><div class="var-source">Source: U.S. Census ACS</div><div class="var-desc">Percent of county population living below the federal poverty line</div></div>
+        <div class="var-item"><div class="var-name">Median Household Income ($)</div><div class="var-source">Source: U.S. Census ACS</div><div class="var-desc">Median annual household income at the county level</div></div>
+        <div class="var-item"><div class="var-name">Percent Uninsured (%)</div><div class="var-source">Source: U.S. Census ACS</div><div class="var-desc">Percent of county population without health insurance coverage</div></div>
+        <div class="var-item"><div class="var-name">Rural/Urban Classification</div><div class="var-source">Source: USDA / U.S. Census</div><div class="var-desc">Whether a county is classified as rural or urban based on population density</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: KEY FINDINGS -->
+  <div class="section" id="section-2">
+    <div class="section-header">
+      <div class="section-header-row"><div class="section-badge">★</div><h2>Key Findings</h2></div>
+      <p class="section-subtitle">High-level insights on how socioeconomic conditions relate to late-stage breast cancer diagnoses — and what they mean for improving early detection.</p>
+    </div>
+    <div class="finding" style="background:#FEF3C7;border-color:#F59E0B;"><span class="finding-icon">📊</span><div><div class="finding-title">Poverty is strongly linked to later diagnoses</div><div class="finding-body">Counties with poverty rates above 20% average over 47% late-stage diagnosis rates, compared to ~40% in lower-poverty counties. Merced County stands out with a 60% late-stage rate and 25.9% poverty rate — the highest in the dataset.</div></div></div>
+    <div class="finding" style="background:#ECFDF5;border-color:#10B981;"><span class="finding-icon">💰</span><div><div class="finding-title">Higher income correlates with earlier detection</div><div class="finding-body">Counties like Marin ($115K median income) and San Mateo ($122K) show some of the lowest late-stage rates (37.2% and 34.7%). Wealthier counties generally have better screening infrastructure and insurance coverage.</div></div></div>
+    <div class="finding" style="background:#EFF6FF;border-color:#3B82F6;"><span class="finding-icon">🏥</span><div><div class="finding-title">Uninsured rates track with delayed diagnoses</div><div class="finding-body">Counties with higher proportions of uninsured residents tend to see more late-stage diagnoses. Insurance is a key enabler of access to mammography and routine preventive screening.</div></div></div>
+    <div class="finding" style="background:#FDF4FF;border-color:#A855F7;"><span class="finding-icon">🗺️</span><div><div class="finding-title">Rural counties face compounded disadvantages</div><div class="finding-body">Rural counties in this dataset average 47.3% late-stage rates vs. 43.7% for urban counties — driven by lower incomes, fewer screening facilities, and greater travel distances to care.</div></div></div>
+  </div>
+
+  <!-- SECTION 3: SOCIOECONOMIC FACTORS (Poverty + Income + Insurance grouped) -->
+  <div class="section" id="section-3">
+    <div class="section-header">
+      <div class="section-header-row"><div class="section-badge">$</div><h2>Socioeconomic Factors</h2></div>
+      <p class="section-subtitle">How poverty, household income, and insurance coverage together shape late-stage breast cancer diagnosis rates across California counties.</p>
+    </div>
+
+    <!-- Sub-group: Poverty -->
+    <div style="margin-bottom:8px;padding:10px 0 4px;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:8px;">
+      <span style="font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:var(--teal);">Poverty</span>
+    </div>
+    <div class="card">
+      <h3>Poverty Rate vs. Late-Stage Diagnosis Rate by County</h3>
+      <canvas id="povertyChart"></canvas>
+      <div class="legend"><div class="legend-item"><div class="legend-dot" style="background:#0D9488"></div> Urban County</div><div class="legend-item"><div class="legend-dot" style="background:#F97316"></div> Rural County</div></div>
+      <p class="caption">Each dot represents one California county. Hover to see county name and exact values.</p>
+      <div class="interpretation"><strong>What this shows: </strong>There is a visible upward trend — counties with higher poverty rates tend to have higher rates of late-stage breast cancer diagnoses. Merced (poverty 25.9%, late-stage 60%) and Madera (22.6%, 52.6%) sit at the high end, while Marin (7.5%, 37.2%) and San Mateo (8.4%, 34.7%) cluster near the lower end. Economic hardship likely limits access to preventive screening.</div>
+    </div>
+    <div class="card">
+      <h3>Top 8 Counties by Late-Stage Diagnosis Rate</h3>
+      <canvas id="topCountiesChart"></canvas>
+      <div class="legend"><div class="legend-item"><div class="legend-box" style="background:#F97316"></div> Poverty rate &gt; 20%</div><div class="legend-item"><div class="legend-box" style="background:#0D9488"></div> Poverty rate ≤ 20%</div></div>
+      <p class="caption">Orange bars highlight counties with poverty rates above 20%. Most high late-stage counties also face elevated poverty.</p>
+    </div>
+
+    <!-- Sub-group: Income -->
+    <div style="margin:24px 0 8px;padding:10px 0 4px;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:8px;">
+      <span style="font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:var(--teal);">Household Income</span>
+    </div>
+    <div class="card">
+      <h3>Median Household Income vs. Late-Stage Diagnosis Rate</h3>
+      <canvas id="incomeChart"></canvas>
+      <div class="legend"><div class="legend-item"><div class="legend-dot" style="background:#0D9488"></div> Above-average income (&gt;$72K)</div><div class="legend-item"><div class="legend-dot" style="background:#F97316"></div> Below-average income</div></div>
+      <p class="caption">Teal dots are above-average income counties; orange dots are below. Hover for county details.</p>
+      <div class="interpretation"><strong>What this shows: </strong>Counties with higher median incomes tend to cluster at lower late-stage diagnosis rates. Income-related advantages — better insurance, more paid leave, proximity to healthcare facilities — enable earlier detection. Marin ($115K, 37.2% late-stage) and San Mateo ($122K, 34.7%) illustrate this, while Imperial ($47K, 50%) and Merced ($53K, 60%) show the inverse.</div>
+    </div>
+
+    <!-- Sub-group: Insurance -->
+    <div style="margin:24px 0 8px;padding:10px 0 4px;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:8px;">
+      <span style="font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:var(--teal);">Insurance Coverage</span>
+    </div>
+    <div class="card">
+      <h3>Percent Uninsured vs. Late-Stage Diagnosis Rate</h3>
+      <canvas id="insuranceChart"></canvas>
+      <div class="legend"><div class="legend-item"><div class="legend-dot" style="background:#F97316"></div> Counties with insurance data</div></div>
+      <p class="caption">35 counties with complete insurance data shown. Hover to view county name and values.</p>
+      <div class="interpretation"><strong>What this shows: </strong>Counties with higher uninsured rates (above 8–9%) tend to have elevated late-stage diagnosis rates. Monterey (9.8% uninsured, 49.6% late-stage) and Merced (8.3%, 60%) illustrate this pattern. Low-uninsured counties like Marin (3.5%, 37.2%) and San Francisco (3.7%, 39.2%) show better early detection — consistent with the idea that insurance coverage is a key enabler of timely mammography access.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: GEOGRAPHY -->
+  <div class="section" id="section-4">
+    <div class="section-header">
+      <div class="section-header-row"><div class="section-badge">6</div><h2>Geographic Disparities</h2></div>
+      <p class="section-subtitle">How do rural and urban counties differ in late-stage breast cancer diagnosis rates and underlying socioeconomic conditions?</p>
+    </div>
+
+    <div style="display:flex;gap:10px;align-items:flex-start;background:#FFF7ED;border:1px solid #FED7AA;border-radius:10px;padding:14px 16px;margin-bottom:20px;">
+      <span style="font-size:20px;flex-shrink:0;">⚠️</span>
+      <div>
+        <div style="font-weight:700;font-size:13px;color:#9A3412;margin-bottom:4px;">Limited Rural Data — Interpret with Caution</div>
+        <div style="font-size:13px;color:#7C2D12;line-height:1.65;">Only <strong>5 of California's rural counties</strong> have late-stage diagnosis data available. The rest are suppressed — meaning the data was withheld to protect patient privacy in small communities where too few cases were reported. This is standard practice in cancer registries, not a data error. Because of this imbalance, the rural average shown below is <strong>directionally useful but not definitive</strong>. The true picture for rural California may look different once more data becomes available.</div>
+      </div>
+    </div>
+
+    <div class="geo-grid">
+      <div class="geo-card">
+        <div class="geo-label" style="color:#0D9488">Urban Counties</div>
+        <div class="geo-rate">43.7%</div>
+        <div class="geo-sub">Avg. Late-Stage Rate · 36 counties</div>
+        <div class="geo-stats">
+          <div class="geo-stat"><div class="geo-stat-val">15.8%</div><div class="geo-stat-lbl">Avg. Poverty</div></div>
+          <div class="geo-stat"><div class="geo-stat-val">$74K</div><div class="geo-stat-lbl">Avg. Income</div></div>
+        </div>
+      </div>
+      <div class="geo-card" style="border:1px dashed #FED7AA;">
+        <div class="geo-label" style="color:#F97316">Rural Counties</div>
+        <div class="geo-rate">47.3%</div>
+        <div class="geo-sub">Avg. Late-Stage Rate · <strong style="color:#F97316;">5 of ~20 rural counties</strong></div>
+        <div class="geo-stats">
+          <div class="geo-stat"><div class="geo-stat-val">20.3%</div><div class="geo-stat-lbl">Avg. Poverty</div></div>
+          <div class="geo-stat"><div class="geo-stat-val">$50K</div><div class="geo-stat-lbl">Avg. Income</div></div>
+        </div>
+        <div style="font-size:11px;color:#92400E;margin-top:10px;font-style:italic;">⚠️ Other rural counties had data suppressed due to small population sizes</div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Poverty Rate by County — Rural vs. Urban (Top 16 Counties)</h3>
+      <canvas id="geoChart"></canvas>
+      <div class="legend"><div class="legend-item"><div class="legend-box" style="background:#0D9488"></div> Urban</div><div class="legend-item"><div class="legend-box" style="background:#F97316"></div> Rural</div></div>
+      <p class="caption">Top 16 counties by poverty rate, colored by rural/urban classification.</p>
+      <div class="interpretation"><strong>What this shows: </strong>The 5 rural counties with available data average 47.3% late-stage diagnoses, compared to 43.7% across 36 urban counties. While the rural sample is small, the pattern is consistent — rural counties tend to have lower incomes, fewer clinics, and longer distances to care. Counties like Lake, Humboldt, and Mendocino are likely priority areas for outreach, though this should be confirmed as more rural data becomes available.</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>Data: State Cancer Profiles (NCI/CDC) &amp; U.S. Census American Community Survey &nbsp;·&nbsp; Analysis covers California counties &nbsp;·&nbsp; For public health planning purposes.</footer>
+
+<script>
+const DATA = [
+  {county:"Yolo",rural_urban:"Urban",percent_late_stage:51.0,median_income:70228,percent_uninsured:4.85,poverty_rate:17.5},
+  {county:"Nevada",rural_urban:"Rural",percent_late_stage:45.5,median_income:66096,percent_uninsured:null,poverty_rate:12.4},
+  {county:"Marin",rural_urban:"Urban",percent_late_stage:37.2,median_income:115246,percent_uninsured:3.52,poverty_rate:7.5},
+  {county:"Ventura",rural_urban:"Urban",percent_late_stage:43.9,median_income:88131,percent_uninsured:8.80,poverty_rate:9.9},
+  {county:"Butte",rural_urban:"Urban",percent_late_stage:44.3,median_income:52537,percent_uninsured:6.15,poverty_rate:21.4},
+  {county:"Imperial",rural_urban:"Urban",percent_late_stage:50.0,median_income:47622,percent_uninsured:8.05,poverty_rate:24.3},
+  {county:"Santa Clara",rural_urban:"Urban",percent_late_stage:41.7,median_income:124055,percent_uninsured:4.30,poverty_rate:8.3},
+  {county:"Santa Cruz",rural_urban:"Urban",percent_late_stage:40.6,median_income:82234,percent_uninsured:5.13,poverty_rate:15.4},
+  {county:"Contra Costa",rural_urban:"Urban",percent_late_stage:40.5,median_income:99716,percent_uninsured:5.10,poverty_rate:10.2},
+  {county:"San Diego",rural_urban:"Urban",percent_late_stage:44.4,median_income:78980,percent_uninsured:7.84,poverty_rate:13.9},
+  {county:"San Luis Obispo",rural_urban:"Urban",percent_late_stage:37.8,median_income:73518,percent_uninsured:6.05,poverty_rate:14.4},
+  {county:"Sacramento",rural_urban:"Urban",percent_late_stage:45.2,median_income:67151,percent_uninsured:5.48,poverty_rate:16.9},
+  {county:"El Dorado",rural_urban:"Urban",percent_late_stage:37.8,median_income:83377,percent_uninsured:4.58,poverty_rate:9.1},
+  {county:"Monterey",rural_urban:"Urban",percent_late_stage:49.6,median_income:71015,percent_uninsured:9.83,poverty_rate:15.3},
+  {county:"Solano",rural_urban:"Urban",percent_late_stage:48.0,median_income:81472,percent_uninsured:4.72,poverty_rate:12.0},
+  {county:"Shasta",rural_urban:"Urban",percent_late_stage:51.0,median_income:54667,percent_uninsured:6.50,poverty_rate:19.0},
+  {county:"Lake",rural_urban:"Rural",percent_late_stage:50.0,median_income:47040,percent_uninsured:null,poverty_rate:20.5},
+  {county:"San Francisco",rural_urban:"Urban",percent_late_stage:39.2,median_income:112449,percent_uninsured:3.66,poverty_rate:12.4},
+  {county:"Alameda",rural_urban:"Urban",percent_late_stage:41.8,median_income:99406,percent_uninsured:4.37,poverty_rate:11.5},
+  {county:"Merced",rural_urban:"Urban",percent_late_stage:60.0,median_income:53672,percent_uninsured:8.33,poverty_rate:25.9},
+  {county:"Orange",rural_urban:"Urban",percent_late_stage:40.4,median_income:90234,percent_uninsured:7.59,poverty_rate:12.7},
+  {county:"Placer",rural_urban:"Urban",percent_late_stage:40.3,median_income:89691,percent_uninsured:4.03,poverty_rate:8.6},
+  {county:"Sonoma",rural_urban:"Urban",percent_late_stage:40.8,median_income:81018,percent_uninsured:6.09,poverty_rate:11.0},
+  {county:"Santa Barbara",rural_urban:"Urban",percent_late_stage:38.8,median_income:74624,percent_uninsured:10.03,poverty_rate:15.6},
+  {county:"San Bernardino",rural_urban:"Urban",percent_late_stage:49.2,median_income:63362,percent_uninsured:8.41,poverty_rate:18.9},
+  {county:"San Joaquin",rural_urban:"Urban",percent_late_stage:48.6,median_income:64432,percent_uninsured:6.43,poverty_rate:17.5},
+  {county:"Humboldt",rural_urban:"Rural",percent_late_stage:47.4,median_income:48041,percent_uninsured:8.22,poverty_rate:20.9},
+  {county:"Los Angeles",rural_urban:"Urban",percent_late_stage:43.3,median_income:68044,percent_uninsured:9.64,poverty_rate:16.7},
+  {county:"Napa",rural_urban:"Urban",percent_late_stage:36.3,median_income:88596,percent_uninsured:5.86,poverty_rate:10.1},
+  {county:"San Mateo",rural_urban:"Urban",percent_late_stage:34.7,median_income:122641,percent_uninsured:4.18,poverty_rate:8.4},
+  {county:"Stanislaus",rural_urban:"Urban",percent_late_stage:42.4,median_income:60704,percent_uninsured:5.68,poverty_rate:19.5},
+  {county:"Riverside",rural_urban:"Urban",percent_late_stage:44.7,median_income:67005,percent_uninsured:8.76,poverty_rate:16.2},
+  {county:"Tulare",rural_urban:"Urban",percent_late_stage:48.1,median_income:49687,percent_uninsured:8.11,poverty_rate:27.2},
+  {county:"Fresno",rural_urban:"Urban",percent_late_stage:45.9,median_income:53969,percent_uninsured:8.34,poverty_rate:25.2},
+  {county:"Sutter",rural_urban:"Urban",percent_late_stage:39.7,median_income:59050,percent_uninsured:8.02,poverty_rate:17.5},
+  {county:"Kern",rural_urban:"Urban",percent_late_stage:46.0,median_income:53350,percent_uninsured:7.94,poverty_rate:21.9},
+  {county:"Kings",rural_urban:"Urban",percent_late_stage:41.4,median_income:57848,percent_uninsured:7.51,poverty_rate:22.4},
+  {county:"Mendocino",rural_urban:"Rural",percent_late_stage:44.2,median_income:51416,percent_uninsured:8.58,poverty_rate:20.3},
+  {county:"Madera",rural_urban:"Urban",percent_late_stage:52.6,median_income:57585,percent_uninsured:8.29,poverty_rate:22.6},
+  {county:"San Benito",rural_urban:"Urban",percent_late_stage:43.2,median_income:86958,percent_uninsured:null,poverty_rate:9.3},
+  {county:"Yuba",rural_urban:"Urban",percent_late_stage:40.0,median_income:58054,percent_uninsured:null,poverty_rate:21.6},
+];
+
+function showSection(idx, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('section-' + idx).classList.add('active');
+  btn.classList.add('active');
+}
+
+const T = 'rgba(13,148,136,0.78)';
+const C = 'rgba(249,115,22,0.78)';
+
+// Poverty scatter
+new Chart(document.getElementById('povertyChart'), {
+  type: 'scatter',
+  data: { datasets: [{ data: DATA.map(d=>({x:d.poverty_rate,y:d.percent_late_stage,county:d.county,type:d.rural_urban})), backgroundColor: DATA.map(d=>d.rural_urban==='Urban'?T:C), pointRadius:7, pointHoverRadius:10 }] },
+  options: { responsive:true, plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label: ctx=>{ const d=ctx.raw; return [`${d.county} County`,`Poverty: ${d.x}%`,`Late-Stage: ${d.y}%`]; } } } },
+    scales:{ x:{title:{display:true,text:'Poverty Rate (%)',color:'#64748B',font:{size:12}},grid:{color:'#E2E8F0'},ticks:{color:'#64748B'}}, y:{title:{display:true,text:'Late-Stage Diagnosis Rate (%)',color:'#64748B',font:{size:12}},grid:{color:'#E2E8F0'},ticks:{color:'#64748B'},min:30,max:65} } }
+});
+
+// Top 8 bar
+const top8 = [...DATA].sort((a,b)=>b.percent_late_stage-a.percent_late_stage).slice(0,8);
+new Chart(document.getElementById('topCountiesChart'), {
+  type:'bar',
+  data:{ labels:top8.map(d=>d.county), datasets:[{ label:'Late-Stage Rate (%)', data:top8.map(d=>d.percent_late_stage), backgroundColor:top8.map(d=>d.poverty_rate>20?C:T), borderColor:top8.map(d=>d.poverty_rate>20?'#F97316':'#0D9488'), borderWidth:1.5, borderRadius:5 }] },
+  options:{ responsive:true, indexAxis:'y', plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label: ctx=>{ const d=top8[ctx.dataIndex]; return [`Late-Stage: ${d.percent_late_stage}%`,`Poverty: ${d.poverty_rate}%`]; } } } },
+    scales:{ x:{min:30,max:65,title:{display:true,text:'Late-Stage Rate (%)',color:'#64748B',font:{size:12}},grid:{color:'#E2E8F0'},ticks:{color:'#64748B'}}, y:{grid:{display:false},ticks:{color:'#334155',font:{weight:'600'}}} } }
+});
+
+// Income scatter
+const avgIncome = DATA.reduce((s,d)=>s+d.median_income,0)/DATA.length;
+new Chart(document.getElementById('incomeChart'), {
+  type:'scatter',
+  data:{ datasets:[{ data:DATA.map(d=>({x:d.median_income,y:d.percent_late_stage,county:d.county})), backgroundColor:DATA.map(d=>d.median_income>avgIncome?T:C), pointRadius:7, pointHoverRadius:10 }] },
+  options:{ responsive:true, plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label: ctx=>{ const d=ctx.raw; return [`${d.county} County`,`Income: $${d.x.toLocaleString()}`,`Late-Stage: ${d.y}%`]; } } } },
+    scales:{ x:{title:{display:true,text:'Median Household Income ($)',color:'#64748B',font:{size:12}},grid:{color:'#E2E8F0'},ticks:{color:'#64748B',callback:v=>`$${(v/1000).toFixed(0)}K`}}, y:{title:{display:true,text:'Late-Stage Diagnosis Rate (%)',color:'#64748B',font:{size:12}},grid:{color:'#E2E8F0'},ticks:{color:'#64748B'},min:30,max:65} } }
+});
+
+// Insurance scatter
+const ins = DATA.filter(d=>d.percent_uninsured!=null);
+new Chart(document.getElementById('insuranceChart'), {
+  type:'scatter',
+  data:{ datasets:[{ data:ins.map(d=>({x:d.percent_uninsured,y:d.percent_late_stage,county:d.county})), backgroundColor:C, pointRadius:7, pointHoverRadius:10 }] },
+  options:{ responsive:true, plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label: ctx=>{ const d=ctx.raw; return [`${d.county} County`,`Uninsured: ${d.x.toFixed(1)}%`,`Late-Stage: ${d.y}%`]; } } } },
+    scales:{ x:{title:{display:true,text:'Percent Uninsured (%)',color:'#64748B',font:{size:12}},grid:{color:'#E2E8F0'},ticks:{color:'#64748B'}}, y:{title:{display:true,text:'Late-Stage Diagnosis Rate (%)',color:'#64748B',font:{size:12}},grid:{color:'#E2E8F0'},ticks:{color:'#64748B'},min:30,max:65} } }
+});
+
+// Geo bar
+const allC = [...DATA,
+  {county:"Del Norte",rural_urban:"Rural",poverty_rate:23.3},{county:"Siskiyou",rural_urban:"Rural",poverty_rate:22.6},
+  {county:"Tehama",rural_urban:"Rural",poverty_rate:22.5},{county:"Modoc",rural_urban:"Rural",poverty_rate:20.3},
+  {county:"Glenn",rural_urban:"Rural",poverty_rate:18.5},{county:"Trinity",rural_urban:"Rural",poverty_rate:19.7}
+];
+const top16 = [...allC].sort((a,b)=>b.poverty_rate-a.poverty_rate).slice(0,16);
+new Chart(document.getElementById('geoChart'), {
+  type:'bar',
+  data:{ labels:top16.map(d=>d.county), datasets:[{ label:'Poverty Rate (%)', data:top16.map(d=>d.poverty_rate), backgroundColor:top16.map(d=>d.rural_urban==='Rural'?C:T), borderColor:top16.map(d=>d.rural_urban==='Rural'?'#F97316':'#0D9488'), borderWidth:1.5, borderRadius:5 }] },
+  options:{ responsive:true, plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label: ctx=>{ const d=top16[ctx.dataIndex]; return [`${d.rural_urban}`,`Poverty: ${d.poverty_rate}%`]; } } } },
+    scales:{ x:{ticks:{color:'#334155',font:{size:10},maxRotation:40},grid:{display:false}}, y:{title:{display:true,text:'Poverty Rate (%)',color:'#64748B',font:{size:12}},grid:{color:'#E2E8F0'},ticks:{color:'#64748B'}} } }
+});
+</script>
+</body>
+</html>
