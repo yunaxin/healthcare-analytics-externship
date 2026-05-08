@@ -50,10 +50,9 @@ An interactive dashboard generated with AI-assisted tools for exploring the anal
 
 ## Research Report & Presentation
 
-Project report and presentation slides can be found here:
+Project report can be found here:
 
 - `analysis_report.pdf`
-- `analysis_presentation.pdf`
 
 ---
 
