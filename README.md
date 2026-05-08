@@ -36,8 +36,8 @@ Final merged dataset:
 
 The main exploratory data analysis (EDA), statistical testing, regression modeling, and visualizations are included in:
 
-`statistical_analysis.ipynb`
-`EDA.ipynb`
+- `statistical_analysis.ipynb`
+- `EDA.ipynb`
 
 ---
 
