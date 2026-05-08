@@ -9,4 +9,4 @@ The analysis explores the relationship between county-level socioeconomic factor
 
 An interactive dashboard generated with AI-assisted tools for exploring the analysis and visualizations can be viewed here:
 
-- [View Dashboard](YOUR_DASHBOARD_LINK)
+- [View Dashboard](https://yunaxin.github.io/healthcare-analytics-externship/dashboard/index.html)
