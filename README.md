@@ -28,8 +28,7 @@ The cleaning process included:
 Cleaned datasets were merged using county FIPS codes to create a unified dataset for statistical analysis and modeling.
 
 Final merged dataset:
-
-datasets/cleaned/final_merged_dataset.csv
+`datasets/cleaned/final_merged_dataset.csv`
 
 ---
 
@@ -37,7 +36,7 @@ datasets/cleaned/final_merged_dataset.csv
 
 The main exploratory data analysis (EDA), statistical testing, regression modeling, and visualizations are included in:
 
-statistical_analysis.ipynb
+`statistical_analysis.ipynb`
 
 ---
 
@@ -53,8 +52,8 @@ An interactive dashboard generated with AI-assisted tools for exploring the anal
 
 Project report and presentation slides can be found here:
 
-- analysis_report.pdf
-- analysis_presentation.pdf
+- `analysis_report.pdf`
+- `analysis_presentation.pdf`
 
 ---
 
